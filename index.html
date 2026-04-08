@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+    <link rel="stylesheet" href="./bootstrap-5.3.8/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="./index.css">
+    <script src="./bootstrap-5.3.8/dist/js/bootstrap.js"></script>
+    
+</head>
+
+<body>
+
+    <div class="container">
+        <form class="was-validated">
+            <div>
+                <input type="text" class="form-control is-valid" id="first" placeholder="First name" required>
+                <span class="valid-feedback" ></span>
+            </div>
+
+            <div>
+                <input type="text" class="form-control is-valid" id="last" placeholder="Last name" required>
+                <span class="valid-feedback"></span>
+            </div>
+
+            <div>
+                <input type="" class="form-control is-valid" id="email" placeholder="Emai" required>
+                <span class="valid-feedback"></span>
+            </div>
+            
+            <div>
+                <input type="password" class="form-control " id="password" placeholder="Enter Password" required>
+                <span class="valid-feedback"></span>
+            </div>  
+
+            <button type="button" id="button" class="btn bg-primary ">Submit</button>
+           
+        </form>
+    </div>
+    <script src="./index.js "></script>
+</body>
+
+</html>
