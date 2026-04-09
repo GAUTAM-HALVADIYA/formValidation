@@ -14,28 +14,109 @@
 <body>
 
     <div class="container">
-        <form class="was-validated">
-            <div>
-                <input type="text" class="form-control is-valid" id="first" placeholder="First name" required>
-                <span class="valid-feedback" ></span>
+        <form class="flex">
+            <div class="mb-3">
+                <label class="fw-medium" for="full">Full Name</label>
+                <input type="text" class="form-control " id="full" placeholder="Your Full Name" required>
+                
             </div>
 
-            <div>
-                <input type="text" class="form-control is-valid" id="last" placeholder="Last name" required>
-                <span class="valid-feedback"></span>
-            </div>
 
-            <div>
-                <input type="" class="form-control is-valid" id="email" placeholder="Emai" required>
-                <span class="valid-feedback"></span>
+            <div class="mb-3">
+                <label class="fw-medium" for="email">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Your Email" required>
+                
             </div>
             
-            <div>
-                <input type="password" class="form-control " id="password" placeholder="Enter Password" required>
-                <span class="valid-feedback"></span>
+            <div class="mb-3">
+                <label class="fw-medium" for="password">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Your Password" required>
+                
             </div>  
 
-            <button type="button" id="button" class="btn bg-primary ">Submit</button>
+            <div class="d-flex gap-3 mb-3">
+
+                <div class="flex-grow-1">
+                    <label class="fw-medium" for="date">Date Of Birth</label>
+                    <input type="date" class="form-control" id="date" required>
+                    
+                </div>  
+                <div class="flex-grow-1">
+                    <label class="fw-medium" for="age">Age</label>
+                    <input type="number" class="form-control" id="age" placeholder="Your Age" required disabled>
+                    
+                </div>  
+            </div>
+         
+            <div class="mb-3">
+                <label class="fw-medium me-3" class="d-block" for="gender">Gender</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="male">
+                    <label class="form-check-label" for="inlineRadio1">Male</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="female">
+                    <label class="form-check-label" for="inlineRadio1">Female</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="other">
+                    <label class="form-check-label" for="inlineRadio1">Other</label>
+                </div>
+                
+            </div>  
+            
+
+            <div class="mb-3">
+                <label class="fw-medium me-3" class="d-block" for="hobbies">Hobbies</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                    <label class="form-check-label" for="inlineCheckbox1">Editing</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                    <label class="form-check-label" for="inlineCheckbox1">Photography</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                    <label class="form-check-label" for="inlineCheckbox1">Animation</label>
+                </div>
+                
+            </div>  
+
+            <div class="mb-3">
+                <label class="fw-medium" for="photo">Profile Photo</label>
+                <input type="file" class="form-control" id="photo" required>
+                
+            </div>  
+            <div class="mb-3">
+                <label class="fw-medium" for="country">Country</label>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Select Country</option>
+                    <option value="India">India</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Europe">Europe</option>
+                    <option value="other">other</option>
+                </select>
+                
+            </div>  
+            <div class="mb-3">
+                <label class="fw-medium" for="add">Address</label>
+                <textarea type="text" class="form-control" id="add" placeholder="Your Current Address" required></textarea>
+                
+            </div>  
+            <div class="mb-3">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="dropdownCheck">
+                    <label class="form-check-label" for="dropdownCheck">Accept Terms</label>
+                </div>
+            </div>  
+            
+
+            <div class="d-flex gap-3 justify-content-end">
+                <button type="button" id="rs-button" class="btn bg-primary">Reset</button>
+                <button type="button" id="sb-button" class="btn bg-primary ">Submit</button>
+            </div>
+
            
         </form>
     </div>
