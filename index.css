@@ -1,13 +1,10 @@
 .flex{
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    
     margin: 1rem auto;
     border-radius: 1.5rem;
     border: black 1px solid;
-    
     padding: 2rem;
-    width: 40%;
+    
 }
 
 input{
@@ -30,4 +27,12 @@ input{
 .valid-feedback, .invalid-feedback{
     margin: 0;
     display: block;
+}
+
+.card-body{
+    border: 1px solid black;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    flex-grow: 0;
+    margin-bottom: 1rem;
 }

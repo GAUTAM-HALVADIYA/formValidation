@@ -241,6 +241,8 @@ function addToLocal(length){
     )
     console.log(localData);
     storage.setItem("data", JSON.stringify(localData))
+   
     document.getElementById("rs-button").click()
 
 }
+
