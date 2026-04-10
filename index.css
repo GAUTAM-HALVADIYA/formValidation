@@ -29,4 +29,5 @@ input{
 
 .valid-feedback, .invalid-feedback{
     margin: 0;
+    display: block;
 }
