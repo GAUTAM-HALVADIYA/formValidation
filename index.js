@@ -2,21 +2,21 @@ let storage = window.localStorage;
 let localData = JSON.parse(storage.getItem("data")) || [];
 
 
-let localname;
-let localemail;
-let localpass;
-let localbod;
-let localage;
-let localgender;
-let localhobbies;
-let localimage;
-let localcountry;
-let localaddress;
-let localterms;
+let localName;
+let localEmail;
+let localPass;
+let localBod;
+let localAge;
+let localGender;
+let localHobbies;
+let localImage = "./passport.jpg";
+let localCountry;
+let localAddress;
+let localTerms;
 
+printCard()
 
-
-let ph = document.getElementById("photo").addEventListener("input", function logPhoto(event) {
+document.getElementById("photo").addEventListener("input", function logPhoto(event) {
     const file = event.target.files[0]; 
     
     let img = document.getElementById("img");
@@ -28,9 +28,8 @@ let ph = document.getElementById("photo").addEventListener("input", function log
         reader.onload = function(e) {
             const base64String = e.target.result;
             console.log("Photo Data (Base64):", base64String);
-            if(storage.getItem("image"))
-                storage.removeItem("image")
-            storage.setItem("image", base64String)
+            localImage = base64String;
+           
             img.setAttribute("src", base64String)
         };
 
@@ -77,13 +76,13 @@ function validateSingleField(element) {
 
 function validation() {
 
-    localname = validateField(full, regName, "At least 3 letters; no starting space.");
-    localemail = validateField(email, regex, "Enter valid email");
-    localpass = validateField(password, regPass, "Password must be strong");
-    localaddress = validateField(address, /^.[a-zA-Z0-9 ,.-]{10,}$/,"Please write valid Address");
+    localName = validateField(full, regName, "At least 3 letters; no starting space.");
+    localEmail = validateField(email, regex, "Enter valid email");
+    localPass = validateField(password, regPass, "Password must be strong");
+    localAddress = validateField(address, /^.[a-zA-Z0-9 ,.-]{10,}$/,"Please write valid Address");
     validateOther();
     
-    if(localname && localaddress && localemail && localcountry &&localterms && localbod && localpass && localgender && localhobbies && localage)
+    if(localName && localAddress && localEmail && localCountry &&localTerms && localBod && localPass && localGender && localHobbies && localAge)
     { 
         console.log("all fine");
         addToLocal(localData.length)
@@ -147,7 +146,7 @@ function age(e){
 
     let ageElem = document.getElementById("age");
     let dob = e.target.value.split("-");
-    localage = 0;
+    localAge = 0;
     let date = new Date()
     let age = date.getFullYear() - dob[0]
     if(dob[1] >= date.getMonth + 1)
@@ -160,7 +159,7 @@ function age(e){
     if(age < 18)
         otherFeedback(ageElem, "Must be 18 or above", false)
     else{
-        localage = age;
+        localAge = age;
         if (ageElem.nextElementSibling ) {
             ageElem.nextElementSibling.remove();
             ageElem.classList.remove("is-invalid");
@@ -172,27 +171,27 @@ function age(e){
 function validateOther(){
 
     let date = document.getElementById("date")
-    localbod = otherFeedback(date, "DOB is mendatory", date?.value)
+    localBod = otherFeedback(date, "DOB is mendatory", date?.value)
 
     let gender = document.querySelector('input[name="RadioOptions"]:checked')?.value;
-    localgender = otherFeedback(document.getElementById("last-radio"), "Please select gender", gender)
+    localGender = otherFeedback(document.getElementById("last-radio"), "Please select gender", gender)
 
     let checkedBoxes = document.querySelectorAll('input[name="hobbies"]:checked');
     let selectedHobbies = Array.from(checkedBoxes).map(cb => cb.value);
-    localhobbies = otherFeedback(document.getElementById("last-checkBox"), "Please select your hobbies", selectedHobbies);
+    localHobbies = otherFeedback(document.getElementById("last-checkBox"), "Please select your hobbies", selectedHobbies);
 
     let country = document.getElementById("country")
-    localcountry = otherFeedback(country, "Please select country", country?.value);
+    localCountry = otherFeedback(country, "Please select country", country?.value);
 
     let terms = document.querySelector('input[name="terms"]:checked');
-    localterms = otherFeedback(document.getElementById("terms"), "Please select terms", terms?.value);
+    localTerms = otherFeedback(document.getElementById("terms"), "Please select terms", terms?.value);
 
     // console.log(gender); 
     // console.log(selectedHobbies); 
     // console.log(country.value)
     // console.log(terms)
     // console.log(date?.value);
-    // console.log(localterms)
+    // console.log(localTerms)
   
 
 }
@@ -224,6 +223,8 @@ function reset()
     document.querySelectorAll(".valid-feedback").forEach(input => input.remove())
     document.querySelectorAll(".is-invalid").forEach(input => input.classList.remove("is-invalid"))
     document.querySelectorAll(".is-valid").forEach(input => input.classList.remove("is-valid"))
+
+    document.getElementById("img").setAttribute("src", "")
 }
 
 function addToLocal(length){
@@ -231,13 +232,14 @@ function addToLocal(length){
     localData.push(
         {
             id: length,
-            name: localname,
-            email: localemail,
-            age: localage,
-            gender: localgender,
-            hobbies: localhobbies,
-            country: localcountry,
-            address: localaddress
+            name: localName,
+            email: localEmail,
+            age: localAge,
+            gender: localGender,
+            hobbies: localHobbies,
+            country: localCountry,
+            address: localAddress,
+            image: localImage
         }
     )
     console.log(localData);
@@ -245,5 +247,74 @@ function addToLocal(length){
    
     document.getElementById("rs-button").click()
 
+    printCard()
+
+}
+
+function printCard(){
+    
+    let show = document.getElementById("show")
+    show.textContent = ""
+
+    localData.forEach(element => {
+        createCard(element)
+    })
+
+
+
+}
+
+function createCard(element)
+{
+    let show = document.getElementById("show")
+
+        
+    let card = document.createElement("div")
+    card.classList = "card"
+
+    let wrapper = document.createElement("div")
+    wrapper.classList = "wrapper"
+
+    let img = document.createElement("img")
+    img.classList = "card-img"
+    
+
+    wrapper.append(img);
+
+    let cardBody = document.createElement("div")
+    cardBody.classList = "card-body"
+
+    for (const key in element) {
+       
+        let value = element[key];
+        
+        if(key == "image"){
+            img.setAttribute("src", value)
+            continue
+
+        }
+       
+
+        if(Array.isArray(value))
+        {
+            value = value.join(", ")
+        }
+
+        let title  = document.createElement("h6")
+        title.textContent = key
+
+        let text  = document.createElement("p")
+        text.textContent = value
+
+        cardBody.append(title)
+        cardBody.append(text)
+
+
+    }
+
+    card.append(wrapper)
+    card.append(cardBody)
+
+    show.append(card)
 }
 
