@@ -141,7 +141,6 @@ function showValid(element, msg) {
 
 
 document.getElementById("date").addEventListener("input", age)
-// document.getElementById("date").addEventListener("change", age)
 
 function age(e){
 
@@ -200,20 +199,22 @@ function validateOther(){
 
 function otherFeedback(element, msg, isValid)
 {
+    let hasValue = Array.isArray(isValid) ? isValid.length > 0 : isValid;
     let next = element.nextElementSibling;
     if (next && next.classList.contains("invalid-feedback")) {
         next.remove();
         element.classList.remove("is-invalid");
     }
 
-    if(!isValid)
+    if(!hasValue){
         showInValid(element, msg);
+        return false
+    }
     else
     {
         return isValid;
     }
 
-    return false
  
 }
 
