@@ -267,7 +267,8 @@ function printCard(){
 function createCard(element)
 {
     let show = document.getElementById("show")
-
+    let col = document.createElement("div")
+    col.classList = "col"
         
     let card = document.createElement("div")
     card.classList = "card"
@@ -314,7 +315,8 @@ function createCard(element)
 
     card.append(wrapper)
     card.append(cardBody)
-
-    show.append(card)
+    
+    col.append(card)
+    show.append(col)
 }
 
