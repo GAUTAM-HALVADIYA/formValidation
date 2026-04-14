@@ -14,6 +14,8 @@ let localCountry;
 let localAddress;
 let localTerms;
 
+let editId;
+
 printCard()
 
 document.getElementById("photo").addEventListener("change", function logPhoto(event) {
@@ -54,8 +56,17 @@ document.querySelectorAll(".form-control").forEach(input => {
 });
 
 
+let submitBtn = document.getElementById("sb-button")
+submitBtn.addEventListener("click", function(){
+    if(validation())
+    {
+        addToLocal()
+    }
 
-document.getElementById("sb-button").addEventListener("click", validation);
+});
+
+
+
 document.getElementById("rs-button").addEventListener("click", reset);
 
 let regex = /^[a-zA-Z]+([._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/;
@@ -84,11 +95,12 @@ function validation() {
     localAddress = validateField(address, /^.[a-zA-Z0-9 ,.-]{10,}$/,"Please write valid Address");
     validateOther();
     
-    if(localName && localAddress && localEmail && localCountry &&localTerms && localBod && localPass && localGender && localHobbies && localAge)
-    { 
+    console.log(console.log({localName, localAddress, localEmail, localCountry, localTerms, localBod, localPass, localGender, localHobbies, localAge}))
+
+    if(localName && localAddress && localEmail && localCountry &&localTerms && localBod && localPass && localGender && localHobbies && localAge){
         console.log("all fine");
-        addToLocal(localData.length)
-    }   
+        return true
+    }
 }
 
 function validateField(element, regex, errorMsg) {
@@ -232,13 +244,21 @@ function reset()
     img.style.height = ""
 }
 
-function addToLocal(length){
+function addToLocal(isedit = false){
 
-    localData.push(
+    if(isedit)
+    {
+        let id = localData.findIndex(element => element.id == editId)
+        console.log(id);
+    }
+    else{
+        localData.push(
         {
-            id: length,
+            id: Date.now(),
             name: localName,
             email: localEmail,
+            password: localPass,
+            bod: localBod,
             age: localAge,
             gender: localGender,
             hobbies: localHobbies,
@@ -247,11 +267,12 @@ function addToLocal(length){
             image: localImage
         }
     )
+    }
     console.log(localData);
     storage.setItem("data", JSON.stringify(localData))
    
     document.getElementById("rs-button").click()
-    document.getElementById("form").style.display = "none"
+    hideForm()
     printCard()
 
 }
@@ -297,6 +318,8 @@ function createCard(element)
             continue
 
         }
+        if(key == "id")
+            card.id = value
        
 
         if(Array.isArray(value))
@@ -316,39 +339,159 @@ function createCard(element)
 
     }
 
+    let btnWrap = document.createElement("div")
+    btnWrap.classList = "d-flex gap-2"
+
+    let edit = document.createElement("button");
+    edit.id = "edit"
+    edit.classList = "btn btn-primary";
+    edit.textContent = "Edit";
+
+    let del = document.createElement("button")
+    del.id = "delete"
+    del.classList = "btn btn-danger"
+    del.textContent = "Delete"
+
+    btnWrap.append(edit)
+    btnWrap.append(del)
+
     card.append(wrapper)
     card.append(cardBody)
+    card.append(btnWrap)
     
     col.append(card)
     show.append(col)
 }
 
-document.getElementById("shw-btn").addEventListener("click", function() {
-        
-    let form = document.getElementById("form");
+let form = document.getElementById("form");
+let box = document.createElement("div");
 
-    if (form.style.display === "none") {
+document.getElementById("shw-btn").addEventListener("click", showForm)
+
+box.addEventListener("click", hideForm)
+
+function hideForm(){
+    document.getElementById("rs-button").click()
+    form.style.display = "none"
+    box.remove()
+
+}
+function showForm(){
+   
+    box.classList.add("box-shadow");
+
+    if (form.style.display === "none" || form.style.display === "") {
         form.style.display = "flex";
-    } else {
-        form.style.display = "none";
-    }
-})
+        form.after(box)
+    } 
+  
+}
 
 
-// document.getElementById("search").addEventListener("input", searchList)
+document.getElementById("search").addEventListener("input", searchList)
 
-// function searchList(){
+function searchList(){
     
-//     let type = document.getElementById("search").value.toLowerCase();
+    let type = document.getElementById("search").value.toLowerCase();
 
-//   let searched = localData.filter(obj =>
-//     Object.values(obj).some(val =>
-//       String(val).toLowerCase().includes(type)
-//     )
-//   );
+  let searched = localData.filter(obj =>
+    Object.values(obj).some(val =>
+      String(val).toLowerCase().includes(type)
+    )
+  );
 
-//     printCard(searched)
+    printCard(searched)
 
-// }
+}
+
+document.getElementById("show").addEventListener("click", function(e) {
+    
+    
+    let id = e.target.closest(".card").id;
+
+    if (e.target.id == "edit") {
+        showData(id);
+    }
+    if (e.target == "delete") {
+        deleteCard(id);
+    }
+
+
+});
+
+function showData(id){
+    
+    editId = id
+    let givenData = localData.filter(element => element.id == id)
+    // console.log(givenData)
+
+    let name = document.getElementById("full")
+    let email = document.getElementById("email")
+    let password = document.getElementById("password")  
+    let date = document.getElementById("date")
+    let age = document.getElementById("age")
+    let image = document.getElementById("img")
+    let country = document.getElementById("country")
+    let address = document.getElementById("address")
+
+    for (const key in givenData[0]) {
+    
+        const element = givenData[0][key];
+        console.log(key, element)
+        if(key == "name")
+            name.value = element
+        else if(key == "email")
+            email.value = element
+        else if(key == "password")
+            password.value = element
+        else if(key == "bod")
+            date.value = element
+        else if(key == "age"){
+            age.value = element
+            localAge = element
+        }
+        else if(key == "country")
+            country.value = element
+        else if(key == "image")
+            image.setAttribute("src", element)
+        else if(key == "address")
+            address.value = element
+        else if(key == "gender")
+        {
+            let gender = document.querySelectorAll('input[name="RadioOptions"]')
+            gender.forEach(radio => {
+                if(radio.value == element)
+                    radio.checked = (radio.value == element);
+            })
+        }
+        else if(key == "hobbies")
+        {
+            let hobbies = document.querySelectorAll('input[name="hobbies"]')
+            hobbies.forEach(check => {
+                if(element.includes(check.value))
+                    check.checked = true;
+            })
+        }
+        
+    }
+
+    showForm()
+
+   
+    let editBtn = document.createElement("button")
+    editBtn.id = "edit-button"
+    editBtn.classList = "btn btn-success"
+    editBtn.textContent = "Edit"
+    submitBtn.replaceWith(editBtn)
+
+    document.getElementById("edit-button").addEventListener("click", function(e){
+        e.preventDefault()
+        if(validation())
+            addToLocal(true)
+    })
+
+}
+
+
 
 

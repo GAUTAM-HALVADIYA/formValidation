@@ -14,7 +14,6 @@
 
 input{
     border: 1px solid black;
-    border-radius: 0.5rem;
     font-size: 1.2rem;
     padding: 0.5rem;
 }
@@ -70,11 +69,33 @@ input{
     top: 50%;
     left: 50%;
     width: 900px;
+    z-index: 12;
+    background-color: white;
+    color: black;
+    
 }
 
-.search{
-    border: none;
-    
+.box-shadow{
+    background-color: black;
+    opacity: 0.5;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 11;
+  
+}
+
+.search:focus{
+    outline: 0px;
+}
+
+h6{
+    margin-bottom: 0px;
+}
+p{
+    margin-bottom: 0.5rem;
 }
 
 
