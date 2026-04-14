@@ -16,7 +16,7 @@ let localTerms;
 
 printCard()
 
-document.getElementById("photo").addEventListener("input", function logPhoto(event) {
+document.getElementById("photo").addEventListener("change", function logPhoto(event) {
     const file = event.target.files[0]; 
     
     let img = document.getElementById("img");
@@ -30,6 +30,8 @@ document.getElementById("photo").addEventListener("input", function logPhoto(eve
             console.log("Photo Data (Base64):", base64String);
             localImage = base64String;
            
+            img.style.width = "200px"
+            img.style.height = "200px"
             img.setAttribute("src", base64String)
         };
 
@@ -224,7 +226,10 @@ function reset()
     document.querySelectorAll(".is-invalid").forEach(input => input.classList.remove("is-invalid"))
     document.querySelectorAll(".is-valid").forEach(input => input.classList.remove("is-valid"))
 
-    document.getElementById("img").setAttribute("src", "")
+    let img = document.getElementById("img")
+    img.setAttribute("src", "")
+    img.style.width = ""
+    img.style.height = ""
 }
 
 function addToLocal(length){
@@ -246,21 +251,19 @@ function addToLocal(length){
     storage.setItem("data", JSON.stringify(localData))
    
     document.getElementById("rs-button").click()
-
+    document.getElementById("form").style.display = "none"
     printCard()
 
 }
 
-function printCard(){
+function printCard(given = localData){
     
     let show = document.getElementById("show")
     show.textContent = ""
 
-    localData.forEach(element => {
+    given.forEach(element => {
         createCard(element)
     })
-
-
 
 }
 
@@ -319,4 +322,33 @@ function createCard(element)
     col.append(card)
     show.append(col)
 }
+
+document.getElementById("shw-btn").addEventListener("click", function() {
+        
+    let form = document.getElementById("form");
+
+    if (form.style.display === "none") {
+        form.style.display = "flex";
+    } else {
+        form.style.display = "none";
+    }
+})
+
+
+// document.getElementById("search").addEventListener("input", searchList)
+
+// function searchList(){
+    
+//     let type = document.getElementById("search").value.toLowerCase();
+
+//   let searched = localData.filter(obj =>
+//     Object.values(obj).some(val =>
+//       String(val).toLowerCase().includes(type)
+//     )
+//   );
+
+//     printCard(searched)
+
+// }
+
 

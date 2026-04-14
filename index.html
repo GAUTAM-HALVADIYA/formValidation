@@ -16,27 +16,27 @@
 
     <div class="container">
        
-        <form class="row flex ">
-            <div class="col-6 mb-3">
+        <form id="form" class="row flex position-absolute">
+            <div class="col-6 mb-2">
                 <label class="fw-medium" for="full">Full Name</label>
                 <input type="text" class="form-control " id="full" placeholder="Your Full Name" required>
                 
             </div>
 
 
-            <div class="col-6 mb-3">
+            <div class="col-6 mb-2">
                 <label class="fw-medium" for="email">Email</label>
                 <input type="email" class="form-control" id="email" placeholder="Your Email" required>
                 
             </div>
             
-            <div class=" col-6 mb-3">
+            <div class=" col-6 mb-2">
                 <label class="fw-medium" for="password">Password</label>
                 <input type="password" class="form-control" id="password" placeholder="Your Password" required>
                 
             </div>  
 
-            <div class="col-6 d-flex gap-3 mb-3">
+            <div class="col-6 d-flex gap-3 mb-2">
 
                 <div class="flex-grow-1">
                     <label class="fw-medium" for="date">Date Of Birth</label>
@@ -50,7 +50,7 @@
                 </div>  
             </div>
          
-            <div class="mb-3 ">
+            <div class="mb-2 ">
                 <label class="fw-medium me-3" class="d-block" for="gender">Gender</label>
                 <div class="form-check form-check-inline mb-0">
                     <input class="form-check-input" type="radio" name="RadioOptions" id="Radio1" value="male">
@@ -68,7 +68,7 @@
             </div>  
             
 
-            <div class="mb-3 ">
+            <div class="mb-2 ">
                 <label class="fw-medium me-3" class="d-block" for="hobbies">Hobbies</label>
                 <div class="form-check form-check-inline mb-0">
                     <input class="form-check-input" type="checkbox" name="hobbies" id="Checkbox1" value="Editing">
@@ -85,11 +85,11 @@
                 
             </div>  
 
-            <div class=" col-6 mb-3">
+            <div class=" col-6 mb-2">
                 <label class="fw-medium" for="photo">Profile Photo</label>
                 <input type="file" class="form-control" id="photo" accept="image/png, image/jpeg" required>
 
-                <div class="mb-3">
+                <div class="mb-2">
                     <label class="fw-medium" for="country">Country</label>
                     <select id="country" class="form-select" aria-label="Default select example">
                         <option value="" selected disabled>Select Country</option>
@@ -100,7 +100,7 @@
                     </select>
                 </div> 
 
-                <div class="mb-3 ">
+                <div class="mb-2 ">
                     <label class="fw-medium" for="add">Address</label>
                     <textarea type="text" class="form-control" id="address" placeholder="Your Current Address" required></textarea>
                     
@@ -108,7 +108,7 @@
             </div>  
             <img class="col-4 flex-grow-0 d-block" id="img" src="" alt="">
             
-            <div class="mb-3 ">
+            <div class="mb-2 ">
                 <div id="terms" class="form-check">
                     <input type="checkbox" name="terms" value="true" class="form-check-input" id="dropdownCheck">
                     <label class="form-check-label" for="dropdownCheck">Accept Terms</label>
@@ -124,6 +124,13 @@
 
            
         </form>
+
+        <!-- <div class="searchwrap">
+            <img src="./search.png" alt="">
+            <input id="search" class="search" type="text">
+        </div> -->
+
+        <button id="shw-btn" class="btn bg-primary">Add data</button>
 
         <div class="row row-cols-3 gy-3 gx-3" id="show">
             
