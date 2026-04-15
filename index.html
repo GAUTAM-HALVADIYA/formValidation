@@ -9,47 +9,47 @@
     <link rel="stylesheet" href="./index.css">
     <script src="./bootstrap-5.3.8/dist/js/bootstrap.js"></script>
     <script src="./index.js " defer></script>
-    
+
 </head>
 
 <body>
 
     <div class="container">
-       
+
         <form id="form" class="row flex position-fixed">
             <div class="col-6 mb-2">
                 <label class="fw-medium" for="full">Full Name</label>
                 <input type="text" class="form-control " id="full" placeholder="Your Full Name" required>
-                
+
             </div>
 
 
             <div class="col-6 mb-2">
                 <label class="fw-medium" for="email">Email</label>
                 <input type="email" class="form-control" id="email" placeholder="Your Email" required>
-                
+
             </div>
-            
+
             <div class=" col-6 mb-2">
                 <label class="fw-medium" for="password">Password</label>
                 <input type="password" class="form-control" id="password" placeholder="Your Password" required>
-                
-            </div>  
+
+            </div>
 
             <div class="col-6 d-flex gap-3 mb-2">
 
                 <div class="flex-grow-1">
                     <label class="fw-medium" for="date">Date Of Birth</label>
                     <input type="date" class="form-control" id="date" required>
-                    
-                </div>  
+
+                </div>
                 <div class="flex-grow-1">
                     <label class="fw-medium" for="age">Age</label>
                     <input type="number" class="form-control" id="age" placeholder="Your Age" required disabled>
-                    
-                </div>  
+
+                </div>
             </div>
-         
+
             <div class="mb-2 ">
                 <label class="fw-medium me-3" class="d-block" for="gender">Gender</label>
                 <div class="form-check form-check-inline mb-0">
@@ -64,9 +64,9 @@
                     <input class="form-check-input" type="radio" name="RadioOptions" id="radio3" value="other">
                     <label class="form-check-label" for="radio3">Other</label>
                 </div>
-                
-            </div>  
-            
+
+            </div>
+
 
             <div class="mb-2 ">
                 <label class="fw-medium me-3" class="d-block" for="hobbies">Hobbies</label>
@@ -82,12 +82,12 @@
                     <input class="form-check-input" type="checkbox" name="hobbies" id="Checkbox3" value="Animation">
                     <label class="form-check-label" for="Checkbox3">Animation</label>
                 </div>
-                
-            </div>  
+
+            </div>
 
             <div class=" col-6 mb-2">
                 <label class="fw-medium" for="photo">Profile Photo</label>
-                <input type="file" class="form-control" id="photo" accept="image/png, image/jpeg" >
+                <input type="file" class="form-control" id="photo" accept="image/png, image/jpeg">
 
                 <div class="mb-2">
                     <label class="fw-medium" for="country">Country</label>
@@ -98,37 +98,38 @@
                         <option value="Europe">Europe</option>
                         <option value="other">Other</option>
                     </select>
-                </div> 
+                </div>
 
                 <div class="mb-2 ">
-                    <label class="fw-medium" for="add">Address</label>
-                    <textarea type="text" class="form-control" id="address" placeholder="Your Current Address" required></textarea>
-                    
-                </div>  
-            </div>  
+                    <label class="fw-medium" for="address">Address</label>
+                    <textarea type="text" class="form-control" id="address" placeholder="Your Current Address"
+                        required></textarea>
+
+                </div>
+            </div>
             <img class="col-4 flex-grow-0 d-block" id="img" src="" alt="">
-            
+
             <div class="mb-2 ">
                 <div id="terms" class="form-check">
                     <input type="checkbox" name="terms" value="true" class="form-check-input" id="dropdownCheck">
                     <label class="form-check-label" for="dropdownCheck">Accept Terms</label>
                 </div>
-                
-            </div>  
-            
+
+            </div>
+
 
             <div class="d-flex gap-3 justify-content-end">
                 <button type="reset" id="rs-button" class="btn bg-primary">Reset</button>
                 <button type="button" id="sb-button" class="btn bg-primary ">Submit</button>
             </div>
 
-           
+
         </form>
 
 
         <div class="d-flex justify-content-center my-3">
             <div class="border border-black rounded d-flex align-items-center p-1 gap-2">
-                <img class="d-block"  src="./search.png" alt="" height="30px">
+                <img class="d-block" src="./search.png" alt="" height="30px">
                 <input id="search" class="search border border-0 p-0" type="text" placeholder="Search">
             </div>
 
@@ -136,13 +137,36 @@
         <button id="shw-btn" class="btn btn-success">Add data</button>
 
         <div class="row row-cols-3 gy-3 gx-3 my-3" id="show">
-            
+
         </div>
 
         
         
+        
     </div>
-    
+    <table class="table ">
+        <thead>
+            <tr>
+                <th>Profile</th>
+                <th>Student Id</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>DOB</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Hobbies</th>
+                <th>Country</th>
+                <th>Address</th>
+                <th>Action</th>
+            </tr>
+            </tr>
+        </thead>
+        <tbody id="tblData">
+            
+        </tbody>
+    </table>
+
 </body>
 
 </html>

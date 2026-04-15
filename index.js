@@ -293,9 +293,10 @@ function addToLocal(){
 }
 
 function printCard(given = localData){
-    
-    let show = document.getElementById("show")
-    show.textContent = ""
+
+    let tblData = document.getElementById("tblData")
+    tblData.textContent = ""
+
 
     given.forEach(element => {
         createCard(element)
@@ -305,12 +306,14 @@ function printCard(given = localData){
 
 function createCard(element)
 {
-    let show = document.getElementById("show")
+
+    let tblData = document.getElementById("tblData")
+
     let col = document.createElement("div")
     col.classList = "col"
         
-    let card = document.createElement("div")
-    card.classList = "card"
+    let tr = document.createElement("tr")
+    tr.classList = ".rw"
 
     let wrapper = document.createElement("div")
     wrapper.classList = "wrapper"
@@ -319,10 +322,6 @@ function createCard(element)
     img.classList = "card-img"
     
 
-    wrapper.append(img);
-
-    let cardBody = document.createElement("div")
-    cardBody.classList = "card-body"
 
     for (const key in element) {
        
@@ -334,7 +333,8 @@ function createCard(element)
 
         }
         if(key == "id")
-            card.id = value
+            tr.id = value
+        
        
 
         if(Array.isArray(value))
@@ -342,14 +342,11 @@ function createCard(element)
             value = value.join(", ")
         }
 
-        let title  = document.createElement("h6")
-        title.textContent = key
 
-        let text  = document.createElement("p")
-        text.textContent = value
+        let td = document.createElement("td")
+        td.textContent = value
 
-        cardBody.append(title)
-        cardBody.append(text)
+        tr.append(td)
 
 
     }
@@ -370,12 +367,22 @@ function createCard(element)
     btnWrap.append(edit)
     btnWrap.append(del)
 
-    card.append(wrapper)
-    card.append(cardBody)
-    card.append(btnWrap)
+  
+    wrapper.append(img);
     
-    col.append(card)
-    show.append(col)
+    let tdPhoto = document.createElement("td")
+    tdPhoto.append(wrapper)
+
+    tr.prepend(tdPhoto)
+
+    
+    let td = document.createElement("td")
+    td.append(btnWrap)
+    
+    tr.append(td)
+ 
+    tblData.append(tr)
+  
 }
 
 let form = document.getElementById("form");
@@ -389,6 +396,9 @@ function hideForm(){
     document.getElementById("rs-button").click()
     form.style.display = "none"
     box.remove()
+
+    isEditMode = false;
+    submitBtn.textContent = "Submit"; 
 
 }
 function showForm(){
@@ -419,18 +429,22 @@ function searchList(){
 
 }
 
-document.getElementById("show").addEventListener("click", function(e) {
+document.getElementById("tblData").addEventListener("click", function(e) {
     
     
-    let id = e.target.closest(".card").id;
+    let row = e.target.closest("tr");
+    
+    if (!row) return;
 
-    if (e.target.id == "edit") {
+    let id = row.id;
+
+    if (e.target.id === "edit") {
         showData(id);
     }
-    if (e.target == "delete") {
+
+    if (e.target.id === "delete") {
         deleteCard(id);
     }
-
 
 });
 
@@ -497,6 +511,13 @@ function showData(id){
 
 }
 
+function deleteCard(id){
+    if(confirm("Are you sure?")){
+        localData = localData.filter(el => el.id != id);
+        storage.setItem("data", JSON.stringify(localData));
+        printCard();
+    }
+}
 
 
 
