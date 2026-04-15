@@ -15,6 +15,7 @@ let localAddress;
 let localTerms;
 
 let editId;
+let isEdit;
 
 printCard()
 
@@ -244,12 +245,26 @@ function reset()
     img.style.height = ""
 }
 
-function addToLocal(isedit = false){
+function addToLocal(){
 
-    if(isedit)
+    if(isEdit)
     {
         let id = localData.findIndex(element => element.id == editId)
-        console.log(id);
+        localData[id] = {
+            id: editId,
+            name: localName,
+            email: localEmail,
+            password: localPass,
+            bod: localBod,
+            age: localAge,
+            gender: localGender,
+            hobbies: localHobbies,
+            country: localCountry,
+            address: localAddress,
+            image: localImage
+        };
+
+        isEdit = false;
     }
     else{
         localData.push(
@@ -274,7 +289,7 @@ function addToLocal(isedit = false){
     document.getElementById("rs-button").click()
     hideForm()
     printCard()
-
+    submitBtn.textContent = "Submit";
 }
 
 function printCard(given = localData){
@@ -421,7 +436,8 @@ document.getElementById("show").addEventListener("click", function(e) {
 
 function showData(id){
     
-    editId = id
+    editId = id;
+    isEdit = true
     let givenData = localData.filter(element => element.id == id)
     // console.log(givenData)
 
@@ -477,18 +493,7 @@ function showData(id){
 
     showForm()
 
-   
-    let editBtn = document.createElement("button")
-    editBtn.id = "edit-button"
-    editBtn.classList = "btn btn-success"
-    editBtn.textContent = "Edit"
-    submitBtn.replaceWith(editBtn)
-
-    document.getElementById("edit-button").addEventListener("click", function(e){
-        e.preventDefault()
-        if(validation())
-            addToLocal(true)
-    })
+    submitBtn.textContent = "Update"; 
 
 }
 
