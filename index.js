@@ -67,7 +67,6 @@ submitBtn.addEventListener("click", function(){
 });
 
 
-
 document.getElementById("rs-button").addEventListener("click", reset);
 
 let regex = /^[a-zA-Z]+([._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/;
@@ -158,7 +157,6 @@ document.getElementById("date").addEventListener("input", age)
 
 function age(e){
 
-
     let ageElem = document.getElementById("age");
     let dob = e.target.value.split("-");
     localAge = 0;
@@ -207,7 +205,6 @@ function validateOther(){
     // console.log(terms)
     // console.log(date?.value);
     // console.log(localTerms)
-  
 
 }
 
@@ -229,7 +226,6 @@ function otherFeedback(element, msg, isValid)
         return isValid;
     }
 
- 
 }
 
 function reset()
@@ -320,8 +316,6 @@ function createCard(element)
 
     let img = document.createElement("img")
     img.classList = "card-img"
-    
-
 
     for (const key in element) {
        
@@ -334,20 +328,16 @@ function createCard(element)
         }
         if(key == "id")
             tr.id = value
-        
-       
-
+ 
         if(Array.isArray(value))
         {
             value = value.join(", ")
         }
 
-
         let td = document.createElement("td")
         td.textContent = value
 
         tr.append(td)
-
 
     }
 
@@ -374,7 +364,6 @@ function createCard(element)
     tdPhoto.append(wrapper)
 
     tr.prepend(tdPhoto)
-
     
     let td = document.createElement("td")
     td.append(btnWrap)
@@ -397,7 +386,8 @@ function hideForm(){
     form.style.display = "none"
     box.remove()
 
-    isEditMode = false;
+    isEdit = false;
+    editId = null; 
     submitBtn.textContent = "Submit"; 
 
 }
@@ -426,11 +416,9 @@ function searchList(){
   );
 
     printCard(searched)
-
 }
 
 document.getElementById("tblData").addEventListener("click", function(e) {
-    
     
     let row = e.target.closest("tr");
     
@@ -453,7 +441,6 @@ function showData(id){
     editId = id;
     isEdit = true
     let givenData = localData.filter(element => element.id == id)
-    // console.log(givenData)
 
     let name = document.getElementById("full")
     let email = document.getElementById("email")
@@ -506,7 +493,6 @@ function showData(id){
     }
 
     showForm()
-
     submitBtn.textContent = "Update"; 
 
 }
