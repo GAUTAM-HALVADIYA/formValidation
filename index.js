@@ -17,7 +17,7 @@ let localTerms;
 let editId;
 let isEdit;
 
-printCard()
+printTable()
 
 document.getElementById("photo").addEventListener("change", function logPhoto(event) {
     const file = event.target.files[0]; 
@@ -47,8 +47,9 @@ document.getElementById("photo").addEventListener("change", function logPhoto(ev
 let full = document.getElementById("full");
 let password = document.getElementById("password");
 let email = document.getElementById("email");
-let dates = document.getElementById("date")
-let country = document.getElementById("country")
+let address = document.getElementById("address");
+let dates = document.getElementById("date");
+let country = document.getElementById("country");
 
 document.querySelectorAll(".form-control").forEach(input => {
     input.addEventListener("keyup", function() {
@@ -92,10 +93,10 @@ function validation() {
     localName = validateField(full, regName, "At least 3 letters; no starting space.");
     localEmail = validateField(email, regex, "Enter valid email");
     localPass = validateField(password, regPass, "Password must be strong");
-    localAddress = validateField(address, /^.[a-zA-Z0-9 ,.-]{10,}$/,"Please write valid Address");
+    localAddress = validateField(address, /^\S[a-zA-Z0-9 ,.-]{9,}$/,"Please write valid Address");
     validateOther();
     
-    console.log(console.log({localName, localAddress, localEmail, localCountry, localTerms, localBod, localPass, localGender, localHobbies, localAge}))
+    console.log({ localName, localAddress, localEmail, localCountry, localTerms, localBod, localPass, localGender, localHobbies, localAge });
 
     if(localName && localAddress && localEmail && localCountry &&localTerms && localBod && localPass && localGender && localHobbies && localAge){
         console.log("all fine");
@@ -155,30 +156,33 @@ function showValid(element, msg) {
 
 document.getElementById("date").addEventListener("input", age)
 
-function age(e){
+function age(e) {
+  const ageElem = document.getElementById("age");
+  const dobValue = e.target.value;
 
-    let ageElem = document.getElementById("age");
-    let dob = e.target.value.split("-");
-    localAge = 0;
-    let date = new Date()
-    let age = date.getFullYear() - dob[0]
-    if(dob[1] >= date.getMonth + 1)
-    {
-        if(dob[2] > date.getDate())
-            age = age - 1;
-    }
+  if (!dobValue) return;
 
-    ageElem.value = age;
-    if(age < 18)
-        otherFeedback(ageElem, "Must be 18 or above", false)
-    else{
-        localAge = age;
-        if (ageElem.nextElementSibling ) {
-            ageElem.nextElementSibling.remove();
-            ageElem.classList.remove("is-invalid");
-        }
-    }
-    
+  const birthDate = new Date(dobValue);
+  const today = new Date();
+
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDiff = today.getMonth() - birthDate.getMonth();
+
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+
+  ageElem.value = age;
+
+  if (age < 18) {
+    otherFeedback(ageElem, "Must be 18 or above", false);
+    localAge = false;
+  } else {
+    localAge = age;
+    const next = ageElem.nextElementSibling;
+    if (next && next.classList.contains("invalid-feedback")) next.remove();
+    ageElem.classList.remove("is-invalid");
+  }
 }
 
 function validateOther(){
@@ -235,6 +239,8 @@ function reset()
     document.querySelectorAll(".is-invalid").forEach(input => input.classList.remove("is-invalid"))
     document.querySelectorAll(".is-valid").forEach(input => input.classList.remove("is-valid"))
 
+    localImage = "./passport.jpg";
+
     let img = document.getElementById("img")
     img.setAttribute("src", "")
     img.style.width = ""
@@ -284,94 +290,44 @@ function addToLocal(){
    
     document.getElementById("rs-button").click()
     hideForm()
-    printCard()
+    printTable()
     submitBtn.textContent = "Submit";
 }
 
-function printCard(given = localData){
+function printTable(given = localData){
 
     let tblData = document.getElementById("tblData")
-    tblData.textContent = ""
-
-
-    given.forEach(element => {
-        createCard(element)
-    })
+    tblData.innerHTML = given.map(createRow).join("");
 
 }
 
-function createCard(element)
+function createRow(element)
 {
 
-    let tblData = document.getElementById("tblData")
-
-    let col = document.createElement("div")
-    col.classList = "col"
-        
-    let tr = document.createElement("tr")
-    tr.classList = ".rw"
-
-    let wrapper = document.createElement("div")
-    wrapper.classList = "wrapper"
-
-    let img = document.createElement("img")
-    img.classList = "card-img"
-
-    for (const key in element) {
-       
-        let value = element[key];
-        
-        if(key == "image"){
-            img.setAttribute("src", value)
-            continue
-
-        }
-        if(key == "id")
-            tr.id = value
- 
-        if(Array.isArray(value))
-        {
-            value = value.join(", ")
-        }
-
-        let td = document.createElement("td")
-        td.textContent = value
-
-        tr.append(td)
-
-    }
-
-    let btnWrap = document.createElement("div")
-    btnWrap.classList = "d-flex gap-2"
-
-    let edit = document.createElement("button");
-    edit.id = "edit"
-    edit.classList = "btn btn-primary";
-    edit.textContent = "Edit";
-
-    let del = document.createElement("button")
-    del.id = "delete"
-    del.classList = "btn btn-danger"
-    del.textContent = "Delete"
-
-    btnWrap.append(edit)
-    btnWrap.append(del)
-
-  
-    wrapper.append(img);
+    let tableRow = `<tr data-id="${element.id}">
+                        <td>
+                            <div class="wrapper" style="display: flex;">
+                            <img class="card-img" src="${element.image}" alt="Profile" style="width: 50px; height: auto;">
+                            </div>
+                        </td>
+                        <td>${element.id}</td>
+                        <td>${element.name}</td>
+                        <td>${element.email}</td>
+                        <td>${element.bod}</td>
+                        <td>${element.age}</td>
+                        <td>${element.gender}</td>
+                        <td>${element.hobbies.join(", ")}</td>
+                        <td>${element.country}</td>
+                        <td>${element.address}</td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-primary" data-action="edit">Edit</button>
+                                <button class="btn btn-danger" data-action="delete">Delete</button>
+                            </div>
+                        </td>
+                    </tr>`
     
-    let tdPhoto = document.createElement("td")
-    tdPhoto.append(wrapper)
-
-    tr.prepend(tdPhoto)
-    
-    let td = document.createElement("td")
-    td.append(btnWrap)
-    
-    tr.append(td)
- 
-    tblData.append(tr)
-  
+    return tableRow
 }
 
 let form = document.getElementById("form");
@@ -409,13 +365,12 @@ function searchList(){
     
     let type = document.getElementById("search").value.toLowerCase();
 
-  let searched = localData.filter(obj =>
-    Object.values(obj).some(val =>
-      String(val).toLowerCase().includes(type)
-    )
-  );
+    let searched = localData.filter(obj =>
+        [obj.id, obj.name, obj.email, obj.bod, obj.age, obj.gender, obj.country, obj.address]
+            .some(val => String(val).toLowerCase().includes(type))
+    );
 
-    printCard(searched)
+    printTable(searched)
 }
 
 document.getElementById("tblData").addEventListener("click", function(e) {
@@ -424,15 +379,13 @@ document.getElementById("tblData").addEventListener("click", function(e) {
     
     if (!row) return;
 
-    let id = row.id;
+    const id = row.dataset.id;
+    const action = e.target.dataset.action;
 
-    if (e.target.id === "edit") {
+    if (action === "edit") 
         showData(id);
-    }
-
-    if (e.target.id === "delete") {
+    if (action === "delete") 
         deleteCard(id);
-    }
 
 });
 
@@ -440,7 +393,7 @@ function showData(id){
     
     editId = id;
     isEdit = true
-    let givenData = localData.filter(element => element.id == id)
+    let givenData = localData.find(element => element.id == id)
 
     let name = document.getElementById("full")
     let email = document.getElementById("email")
@@ -450,47 +403,28 @@ function showData(id){
     let image = document.getElementById("img")
     let country = document.getElementById("country")
     let address = document.getElementById("address")
-
-    for (const key in givenData[0]) {
     
-        const element = givenData[0][key];
-        console.log(key, element)
-        if(key == "name")
-            name.value = element
-        else if(key == "email")
-            email.value = element
-        else if(key == "password")
-            password.value = element
-        else if(key == "bod")
-            date.value = element
-        else if(key == "age"){
-            age.value = element
-            localAge = element
-        }
-        else if(key == "country")
-            country.value = element
-        else if(key == "image")
-            image.setAttribute("src", element)
-        else if(key == "address")
-            address.value = element
-        else if(key == "gender")
-        {
-            let gender = document.querySelectorAll('input[name="RadioOptions"]')
-            gender.forEach(radio => {
-                if(radio.value == element)
-                    radio.checked = (radio.value == element);
-            })
-        }
-        else if(key == "hobbies")
-        {
-            let hobbies = document.querySelectorAll('input[name="hobbies"]')
-            hobbies.forEach(check => {
-                if(element.includes(check.value))
-                    check.checked = true;
-            })
-        }
-        
-    }
+    name.value=givenData.name
+    email.value=givenData.email
+    password.value = givenData.password
+    date.value = givenData.bod
+    age.value = givenData.age
+    localAge = givenData.age
+    country.value = givenData.country
+    image.setAttribute("src", givenData.image)
+    address.value = givenData.address
+
+    let gender = document.querySelectorAll('input[name="RadioOptions"]')
+    gender.forEach(radio => {
+        if(radio.value == givenData.gender)
+            radio.checked = (radio.value == givenData.gender);
+    })
+
+    let hobbies = document.querySelectorAll('input[name="hobbies"]')
+    hobbies.forEach(check => {
+        if(givenData.hobbies.includes(check.value))
+            check.checked = true;
+    })
 
     showForm()
     submitBtn.textContent = "Update"; 
@@ -499,9 +433,12 @@ function showData(id){
 
 function deleteCard(id){
     if(confirm("Are you sure?")){
-        localData = localData.filter(el => el.id != id);
+        const index = localData.findIndex(el => String(el.id) === String(id));
+        if (index === -1) return;
+
+        localData.splice(index, 1);
         storage.setItem("data", JSON.stringify(localData));
-        printCard();
+        printTable();
     }
 }
 
